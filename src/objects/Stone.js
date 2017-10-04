@@ -8,7 +8,7 @@ class Stone extends Phaser.Sprite {
 
 		//Physics
 		game.physics.arcade.enable(this);
-		this.body.drag.x = 1;
+		this.body.drag.x = 1000;
 	}
 }
 
