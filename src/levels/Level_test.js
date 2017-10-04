@@ -1,6 +1,7 @@
 import LoadMap from 'objects/LoadMap';
 import Stone from 'objects/Stone';
 import Enemy_Moving from 'objects/Enemy_Moving';
+import Button from 'objects/Button';
 
 class Level_test {
 	constructor(game) {
@@ -12,21 +13,45 @@ class Level_test {
 		this.bg_mtn_back.fixedToCamera = true;
 		this.bg_mtn_front.fixedToCamera = true;
 
+		this.objects = this.game.add.group();
+
 		this.map = new LoadMap(game, 'level_objectPool');
+
+		this.allActivated = false;
 
 		return this;
 	}
 
 	loadObjects() {
-		let objects = this.game.add.group();
-		this.map.createFromObjects('objectLayer', 129, 'stone', 0, true, true, objects, Stone);
-		this.map.createFromObjects('objectLayer', 130, 'moving_enemy', 0, true, true, objects, Enemy_Moving);
-		return objects;
+		this.map.createFromObjects('objectLayer', 129, 'stone', 0, true, true, this.objects, Stone);
+		this.map.createFromObjects('objectLayer', 130, 'moving_enemy', 0, true, true, this.objects, Enemy_Moving);
+		this.map.createFromObjects('objectLayer', 138, 'button', 0, true, true, this.objects, Button);
+		return this.objects;
 	}
 
 	updateBG() {
 		this.bg_mtn_back.tilePosition.set(-this.game.camera.x * 0.08, -this.game.camera.y * 0.08);
 		this.bg_mtn_front.tilePosition.set(-this.game.camera.x * 0.15, -this.game.camera.y * 0.15);
+	}
+
+	updateButton() {
+		let activated = 0;
+
+		if (!this.allActivated) {
+			this.objects.forEach(function(obj, a) {
+				
+				if (obj.gid = 138) {
+					if (obj.activated) {
+						activated++;
+					}
+
+					if(activated >= 2) {
+						this.allActivated = true;
+						console.log("eureika");
+					}
+				}
+			}, this);
+		}
 	}
 }
 

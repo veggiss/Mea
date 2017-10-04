@@ -74,6 +74,30 @@
                  "width":13,
                  "x":336,
                  "y":144
+                }, 
+                {
+                 "gid":138,
+                 "height":2,
+                 "id":17,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":8,
+                 "x":224,
+                 "y":144
+                }, 
+                {
+                 "gid":138,
+                 "height":2,
+                 "id":19,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":8,
+                 "x":312,
+                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -92,7 +116,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":17,
+ "nextobjectid":20,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.0.3",
@@ -138,12 +162,25 @@
          "tilewidth":8
         }, 
         {
+         "columns":1,
          "firstgid":129,
-         "source":"..\/..\/..\/assets production\/Tilemap\/stone.tsx"
+         "image":"..\/stone.png",
+         "imageheight":8,
+         "imagewidth":8,
+         "margin":0,
+         "name":"stone",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":8,
+         "tilewidth":8
         }, 
         {
          "firstgid":130,
-         "source":"..\/..\/..\/assets production\/Tilemap\/enemy_moving.tsx"
+         "source":"..\/..\/..\/assets_production\/Tilemap\/enemy_moving.tsx"
+        }, 
+        {
+         "firstgid":138,
+         "source":"..\/..\/..\/assets_production\/Tilemap\/button.tsx"
         }],
  "tilewidth":8,
  "type":"map",

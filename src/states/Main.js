@@ -20,16 +20,13 @@ class Main extends Phaser.State {
 
 		//this.objects.moveAll(this.worldObjects);
 
-		this.button = this.game.add.sprite(230, 142, 'button');
+		//this.button = this.game.add.sprite(230, 142, 'button');
 				
 		this.game.physics.arcade.gravity.y = 450;
-		this.game.physics.arcade.enable(this.button);
-		this.button.body.immovable = true;
-		this.button.body.moves = false;
-		this.button.body.setSize(8, 1, 0, 1);
+
 
 		this.worldObjects.add(this.player);
-		this.worldObjects.add(this.button);
+		//this.worldObjects.add(this.button);
 
 		//this.map.groundLayer.bringToTop();
 
@@ -39,9 +36,9 @@ class Main extends Phaser.State {
 	update() {
 		this.game.physics.arcade.collide(this.worldObjects, this.map.groundLayer);
 		this.game.physics.arcade.collide(this.objects, this.map.groundLayer);
-		this.game.physics.arcade.collide(this.objects, this.player, this.testFunc);
-		//this.game.physics.arcade.collide(this.worldObjects);
-		this.updateButton();
+		this.game.physics.arcade.collide(this.objects, this.player, this.movingEnemyHandler, null, this);
+		this.game.physics.arcade.collide(this.objects);
+		this.level.updateButton();
 		this.level.updateBG();
 	}
 
@@ -49,12 +46,30 @@ class Main extends Phaser.State {
 		//this.game.debug.cameraInfo(this.game.camera, 32, 32);
 	}
 
-	testFunc(p, e) {
-		if (e.key) {
+	buttonHandler() {
+		console.log("buttonhandler");
+	}
+
+	movingEnemyHandler(p, e) {
+		if (e.key == "moving_enemy") {
 			if (e.body.touching.up) {
-				console.log("lol)");
+				this.player.body.velocity.y = -125;
+				e.x = 500;
+				e.scale.x = -1;
+			} else {
+				this.resetPlayer();
 			}
 		}
+	}
+
+	resetPlayer() {
+		this.objects.forEach(function(obj) {
+			if(!obj.alive) {
+				obj.revive();
+			}
+		})
+		this.player.x = 200;
+		this.player.y = 100;
 	}
 
 	updateButton() {
