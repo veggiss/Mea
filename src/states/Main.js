@@ -54,8 +54,7 @@ class Main extends Phaser.State {
 		if (e.key == "moving_enemy") {
 			if (e.body.touching.up) {
 				this.player.body.velocity.y = -125;
-				e.x = 500;
-				e.scale.x = -1;
+				e.kill();
 			} else {
 				this.resetPlayer();
 			}
