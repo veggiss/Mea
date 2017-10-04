@@ -4,6 +4,7 @@ class Preload extends Phaser.State {
 		this.game.load.spritesheet('player', 'assets/player.png', 13, 16, 13);
 		this.game.load.spritesheet('mea', 'assets/mea.png', 8, 6, 4);
 		this.game.load.spritesheet('button', 'assets/button.png', 8, 2, 2);
+		this.game.load.spritesheet('door', 'assets/door.png', 14, 20, 11);
 		this.game.load.spritesheet('moving_enemy', 'assets/moving_enemy.png', 13, 11, 8);
 		this.game.load.spritesheet('tm_ground', 'assets/tm_ground.png', 8, 8, 32);
 		this.game.load.spritesheet('tm_ground_inv', 'assets/tm_ground_inv.png', 8, 8, 32);
