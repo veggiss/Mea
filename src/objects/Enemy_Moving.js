@@ -20,30 +20,19 @@ class Enemy_Moving extends Phaser.Sprite {
 		//Physics
 		game.physics.arcade.enable(this);
 		this.body.immovable = true;
+		this.scale.x = -1;
 	}
 
 	update() {
 		if (this.alive) {
-			if (this.movingEnemyTick > 120) {
-				this.movingEnemySwitch = false;
-				this.body.velocity.x = 12;
+			if (this.body.blocked.left || this.body.touching.left) {
 				this.scale.x = 1;
-			} else if (this.movingEnemyTick < 0) {
-				this.movingEnemySwitch = true;
-				this.body.velocity.x = -12;
+			} else if (this.body.blocked.right || this.body.touching.left) {
 				this.scale.x = -1;
 			}
 
-			if (this.movingEnemySwitch) {
-				this.movingEnemyTick++;
-			} else {
-				this.movingEnemyTick--;
-			}
+			this.body.velocity.x = this.scale.x * 12;
 		}
-	}
-
-	testFunc() {
-		console.log("lol");
 	}
 }
 
