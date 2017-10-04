@@ -2,6 +2,7 @@ import LoadMap from 'objects/LoadMap';
 import Stone from 'objects/Stone';
 import Enemy_Moving from 'objects/Enemy_Moving';
 import Button from 'objects/Button';
+import Door from 'objects/Door';
 
 class Level_test {
 	constructor(game) {
@@ -15,6 +16,8 @@ class Level_test {
 
 		this.objects = this.game.add.group();
 
+		this.door = this.game.add.group();
+
 		this.map = new LoadMap(game, 'level_objectPool');
 
 		this.allActivated = false;
@@ -26,6 +29,7 @@ class Level_test {
 		this.map.createFromObjects('objectLayer', 129, 'stone', 0, true, true, this.objects, Stone);
 		this.map.createFromObjects('objectLayer', 130, 'moving_enemy', 0, true, true, this.objects, Enemy_Moving);
 		this.map.createFromObjects('objectLayer', 138, 'button', 0, true, true, this.objects, Button);
+		this.map.createFromObjects('objectLayer', 149, 'door', 0, true, true, this.door, Door);
 		return this.objects;
 	}
 
@@ -47,6 +51,7 @@ class Level_test {
 
 					if(activated >= 2) {
 						this.allActivated = true;
+						this.door.getChildAt(0).startAnim();
 						console.log("eureika");
 					}
 				}
