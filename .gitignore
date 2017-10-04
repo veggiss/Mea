@@ -1,0 +1,6 @@
+node_modules/
+build/
+assets_production/
+src_old/
+*.log
+*.tmp
