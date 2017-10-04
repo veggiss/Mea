@@ -11,7 +11,7 @@ class Enemy_Moving extends Phaser.Sprite {
 		this.animations.play('walking');
 		this.anchor.setTo(0.5, 0.5);
 		this.autoCull = true;
-		
+
 		if(Math.random() >= 0.5) {
 			this.scale.x = 1;
 		}
@@ -19,6 +19,7 @@ class Enemy_Moving extends Phaser.Sprite {
 		//Physics
 		game.physics.arcade.enable(this);
 		this.body.immovable = true;
+		this.body.setSize(11, 11, 0, 0);
 	}
 
 	update() {
@@ -29,12 +30,18 @@ class Enemy_Moving extends Phaser.Sprite {
 				this.scale.x = -1;
 			}
 
+			if (this.body.blocked.up || this.body.touching.up) {
+				this.kill();
+			}
+
 			this.body.velocity.x = this.scale.x * 12;
 		}
 	}
 
 	testFunc() {
-		console.log("LOL");
+		this.revive();
+		this.reset(200, 100);
+		console.log(this.alive);
 	}
 }
 

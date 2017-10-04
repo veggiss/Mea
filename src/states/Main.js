@@ -15,27 +15,15 @@ class Main extends Phaser.State {
 
 		this.map = this.level.map;
 		this.objects = this.level.loadObjects();
-
-		this.worldObjects = this.game.add.group();
-
-		//this.objects.moveAll(this.worldObjects);
-
-		//this.button = this.game.add.sprite(230, 142, 'button');
 				
 		this.game.physics.arcade.gravity.y = 450;
-
-
-		this.worldObjects.add(this.player);
-		//this.worldObjects.add(this.button);
-
-		//this.map.groundLayer.bringToTop();
 
 		this.game.camera.follow(this.player, Phaser.Camera.LOCKON, 0.1, 0.1);
 	}
 
 	update() {
-		this.game.physics.arcade.collide(this.worldObjects, this.map.groundLayer);
 		this.game.physics.arcade.collide(this.objects, this.map.groundLayer);
+		this.game.physics.arcade.collide(this.player, this.map.groundLayer);
 		this.game.physics.arcade.collide(this.objects, this.player, this.movingEnemyHandler, null, this);
 		this.game.physics.arcade.collide(this.objects);
 		this.level.updateButton();
@@ -62,11 +50,9 @@ class Main extends Phaser.State {
 	}
 
 	resetPlayer() {
-		this.objects.forEach(function(obj) {
-			if(!obj.alive) {
-				obj.revive();
-			}
-		})
+		this.objects.forEachDead(function(obj) {
+			obj.testFunc();
+		});
 		this.player.x = 200;
 		this.player.y = 100;
 	}
