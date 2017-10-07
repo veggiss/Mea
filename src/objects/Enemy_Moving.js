@@ -11,9 +11,10 @@ class Enemy_Moving extends Phaser.Sprite {
 		this.animations.play('walking');
 		this.anchor.setTo(0.5, 0.5);
 		this.autoCull = true;
+		this.scale.x = 1;
 
 		if(Math.random() >= 0.5) {
-			this.scale.x = 1;
+			this.scale.x = -1;
 		}
 
 		//Physics
@@ -36,12 +37,6 @@ class Enemy_Moving extends Phaser.Sprite {
 
 			this.body.velocity.x = this.scale.x * 12;
 		}
-	}
-
-	testFunc() {
-		this.revive();
-		this.reset(200, 100);
-		console.log(this.alive);
 	}
 }
 

@@ -1,6 +1,3 @@
-import JuiceMeter from 'objects/JuiceMeter';
-import Mea from 'objects/Mea';
-
 class Player extends Phaser.Sprite {
 	constructor(game, x, y) {
 		super(game, x, y, 'player');
@@ -10,15 +7,9 @@ class Player extends Phaser.Sprite {
 		//Privates
 		this.playerState = "falling";
 		this.jumpTimer = 0;
-		this.juiceTimer = 2000;
-		this.juiceMax = 100;
-		this.juice = this.juiceMax;
-		this.gravActive = true;
 		this.noGravTime;
 		this.jumpKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 		this.cursors = game.input.keyboard.createCursorKeys();
-		this.gravKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		this.juiceMeter = new JuiceMeter(this.game, 0, 0);
 
 		//Sprite
 		this.animations.add('walking', [1, 2, 3, 4, 5, 6, 7], 14, true);
@@ -30,8 +21,6 @@ class Player extends Phaser.Sprite {
 		game.physics.arcade.enable(this);
 		this.body.setSize(6, 12, 4, 4);
 
-		game.add.existing(this);
-
 		//Globals
 		Player.getX = this.x;
 		Player.getY = this.y;
@@ -39,6 +28,8 @@ class Player extends Phaser.Sprite {
 		Player.getScaleX = this.scale.x;
 		Player.getPlayer = this;
 		Player.getBody = this.body;
+
+		this.game.add.existing(this);
 	}
 
 	update() {
@@ -46,9 +37,6 @@ class Player extends Phaser.Sprite {
 		this.playerControls();
 		this.updateJump();
 		this.updateGets();
-		if (Mea.getAlive) {
-			this.antiGravity();
-		}
 	}
 
 	updateGets() {
@@ -129,28 +117,6 @@ class Player extends Phaser.Sprite {
 				this.animations.frame = 12;
 			}
 			this.animations.stop();
-		}
-	}
-
-	antiGravity() {
-		if (this.gravKey.isDown && this.juice > 1) {
-			if (this.body.velocity.y > -50) {
-				this.body.velocity.y -= 15;
-			}
-			this.juice--;
-			this.noGravTime = this.game.time.now;
-			this.juiceMeter.resetMeter(0, 0);
-		} else {
-			if (this.juice < this.juiceMax && !this.gravKey.isDown && this.game.time.now - this.noGravTime > this.juiceTimer) {
-				this.juice++;
-			}
-		}
-
-		this.juiceMeter.width = (this.juice / this.juiceMax) * 8;
-
-		
-		if (this.juice >= this.juiceMax) {
-			this.juiceMeter.killMeter();
 		}
 	}
 }
