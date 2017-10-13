@@ -4,8 +4,8 @@ import Enemy_Moving from 'objects/Enemy_Moving';
 import Button from 'objects/Button';
 import Door from 'objects/Door';
 
-class Level_test {
-	constructor(game, player, level) {
+class LoadLevel {
+	constructor(game, player, map) {
 		this.game = game;
 		this.player = player;
 
@@ -22,7 +22,7 @@ class Level_test {
 		this.obj_button = this.game.add.group();
 		this.obj_door = this.game.add.group();
 
-		this.map = new LoadMap(game, level);
+		this.map = new LoadMap(game, map);
 
 		this.loadObjects();
 		this.player.bringToTop();
@@ -96,4 +96,4 @@ class Level_test {
 	}
 }
 
-export default Level_test;
+export default LoadLevel;

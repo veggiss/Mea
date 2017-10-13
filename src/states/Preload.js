@@ -12,6 +12,7 @@ class Preload extends Phaser.State {
 		//this.game.load.tilemap('level_debug_parallax', 'assets/tiles/level_debug_parallax.json', null, Phaser.Tilemap.TILED_JSON);
 		//this.game.load.tilemap('level_testing', 'assets/tiles/level_testing.json', null, Phaser.Tilemap.TILED_JSON);
 		this.game.load.tilemap('level_objectPool', 'assets/tiles/level_objectPool.json', null, Phaser.Tilemap.TILED_JSON);
+		this.game.load.tilemap('level_test', 'assets/tiles/level_test.json', null, Phaser.Tilemap.TILED_JSON);
 		this.game.load.image('tile_bg', 'assets/tile_bg.png');
 		this.game.load.image('bg_mtn_front', 'assets/bg_mtn_front.png');
 		this.game.load.image('bg_mtn_back', 'assets/bg_mtn_back.png');

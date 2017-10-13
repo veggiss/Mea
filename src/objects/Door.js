@@ -1,7 +1,10 @@
+import Player from 'objects/Player';
+
 class Door extends Phaser.Sprite {
 	constructor(game, x, y) {
 		super(game, x, y, 'door');
 		//Globals
+		this.game = game;
 		this.activated = false;
 
 		//Sprite
@@ -13,6 +16,9 @@ class Door extends Phaser.Sprite {
 		game.physics.arcade.enable(this);
 		this.body.immovable = true;
 		this.body.moves = false;
+
+		Door.getDoor = this;
+		Door.activated = this.activated;
 	}
 
 	activateDoor() {

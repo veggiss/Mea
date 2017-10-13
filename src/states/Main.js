@@ -1,6 +1,7 @@
 import Player from 'objects/Player';
 import Mea from 'objects/Mea';
 import LoadLevel from 'map/LoadLevel';
+import Door from 'objects/Door';
 
 class Main extends Phaser.State {
 
@@ -20,6 +21,7 @@ class Main extends Phaser.State {
 
 	update() {
 		this.level.update();
+		this.checkDoor();
 	}
 
 	resetPlayer() {
@@ -28,6 +30,17 @@ class Main extends Phaser.State {
 		});
 		this.player.x = 200;
 		this.player.y = 100;
+	}
+
+	checkDoor() {
+		console.log(Door.activated);
+		if (Door.activated) {
+			this.game.physics.arcade.overlap(this.player, Door.getDoor, this.nextLevel);
+		}
+	}
+
+	nextLevel() {
+		console.log("lol");
 	}
 }
 
