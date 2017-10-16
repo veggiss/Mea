@@ -11,7 +11,6 @@ class Game extends Phaser.Game {
 		this.state.add('Main', Main, false);
 		this.state.start('Boot');
 	}
-
 }
 
 new Game();

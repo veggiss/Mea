@@ -6,6 +6,7 @@ class Door extends Phaser.Sprite {
 		//Globals
 		this.game = game;
 		this.activated = false;
+		this.needsReset = true;
 
 		//Sprite
 		this.autoCull = true;
@@ -16,9 +17,8 @@ class Door extends Phaser.Sprite {
 		game.physics.arcade.enable(this);
 		this.body.immovable = true;
 		this.body.moves = false;
-
-		Door.getDoor = this;
-		Door.activated = this.activated;
+		this.originX = this.body.x;
+		this.originY = this.body.y;
 	}
 
 	activateDoor() {
@@ -28,6 +28,10 @@ class Door extends Phaser.Sprite {
 	startAnim() {
 		this.anim.play(12);
 		this.game.camera.shake(0.0005, 1000);
+	}
+
+	resetPos() {
+		this.animations.frame = 0;
 	}
 }
 

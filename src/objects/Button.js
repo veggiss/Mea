@@ -4,6 +4,7 @@ class Button extends Phaser.Sprite {
 
 		//Globals
 		this.activated = false;
+		this.needsReset = false;
 		
 		//Sprite
 		this.autoCull = true;

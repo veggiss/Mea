@@ -65,6 +65,10 @@ class Player extends Phaser.Sprite {
 	}
 
 	playerControls() {
+		if (this.body.touching.down) {
+			this.body.blocked.down = true;
+		}
+
 		if (this.cursors.right.isDown || this.cursors.left.isDown) {
 			if (this.cursors.right.isDown) {
 				this.body.velocity.x = 75;
@@ -97,10 +101,6 @@ class Player extends Phaser.Sprite {
 	}
 
 	playerAnimations() {
-		if (this.body.touching.down) {
-			this.body.blocked.down = true;
-		}
-
 		if (this.playerState == 'idle') {
 			this.animations.play('idle');
 		} else if (this.playerState == 'flying') {
