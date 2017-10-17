@@ -51,7 +51,7 @@ class Player extends Phaser.Sprite {
 			if (this.body.onFloor() && this.jumpTimer === 0) {
 	            this.jumpTimer = 1;
 	            this.body.velocity.y = -75;
-	        } else if (this.jumpTimer > 0 && this.jumpTimer < 7) {
+	        } else if (this.jumpTimer > 0 && this.jumpTimer < 8) {
 	            this.jumpTimer++;
 	            this.body.velocity.y = -75 - (this.jumpTimer * 5);
 	        }
