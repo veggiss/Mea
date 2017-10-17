@@ -69,29 +69,47 @@ class Player extends Phaser.Sprite {
 			this.body.blocked.down = true;
 		}
 
-		if (this.cursors.right.isDown || this.cursors.left.isDown) {
-			if (this.cursors.right.isDown) {
-				this.body.velocity.x = 75;
-				this.scale.x = 1;
-			} else if (this.cursors.left.isDown) {
-				this.body.velocity.x = -75;
-				this.scale.x = -1;
-			}
-			if (this.body.onFloor()) {
-				this.playerState = 'walking';
-			}
-		} else {
-			if (this.body.onFloor()) {
-				this.playerState = 'idle';
-				this.body.velocity.x = 0;
-			} else {
-				if (this.body.velocity.x > 1) {
-					this.body.velocity.x -= this.body.velocity.x / 10;
-				} else if (this.body.velocity.x < 1) {
-					this.body.velocity.x -= this.body.velocity.x / 10;
+		if (this.body.onFloor()) {
+				if (this.cursors.right.isDown) {
+					if (this.body.velocity.x < 80 && this.body.velocity.x > -80) {
+						this.body.velocity.x = 75;
+					} else {
+						this.body.velocity.x -= this.body.velocity.x / 4;
+					}
+					this.scale.x = 1;
+					this.playerState = 'walking';
+				} else if (this.cursors.left.isDown) {
+					if (this.body.velocity.x < 80 && this.body.velocity.x > -80) {
+						this.body.velocity.x = -75;
+					} else {
+						this.body.velocity.x -= this.body.velocity.x / 4;
+					}
+					this.scale.x = -1;
+					this.playerState = 'walking';
 				} else {
-					this.body.velocity.x = 0;
+					this.playerState = 'idle';
+					if (this.body.velocity.x > 1 || this.body.velocity.x < 1) {
+						this.body.velocity.x -= this.body.velocity.x / 2;
+					} else {
+						this.body.velocity.x = 0;
+					}
 				}
+		} else {
+
+			if (this.body.velocity.x < 70 && this.body.velocity.x > -70) {
+				if (this.cursors.right.isDown) {
+					this.body.velocity.x += 25;
+					this.scale.x = 1;
+				} else if (this.cursors.left.isDown) {
+					this.body.velocity.x -= 25;
+					this.scale.x = -1;
+				}
+			}
+
+			if (this.body.velocity.x > 1 || this.body.velocity.x < 1) {
+					this.body.velocity.x -= this.body.velocity.x / 10;
+			} else {
+				this.body.velocity.x = 0;
 			}
 		}
 
