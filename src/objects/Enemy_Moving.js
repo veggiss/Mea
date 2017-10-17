@@ -1,6 +1,6 @@
 class Enemy_Moving extends Phaser.Sprite {
 	constructor(game, x, y) {
-		super(game, x, y, 'moving_enemy');
+		super(game, x, y, 'enemy_moving');
 
 		//Globals
 		this.originX = this.x;

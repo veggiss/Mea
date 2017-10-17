@@ -12,13 +12,13 @@ class Main extends Phaser.State {
 
 		this.level, this.levelEvent;
 		this.levelLoaded = false;
-		this.currentLevel = -1;
-		this.levelMaps = ["level_objectPool", "level_test"];
+		this.currentLevel = 0;
+		this.levelMaps = ["level_showcase"];
 
-		this.player = new Player(this.game, 200, 100);
-		this.mea = new Mea(this.game, 200, 100);
-
-		this.nextLevel();
+		this.player = new Player(this.game);
+		this.mea = new Mea(this.game);
+		
+		this.loadCurrentLevel();
 				
 		this.game.physics.arcade.gravity.y = 450;
 		this.game.physics.arcade.TILE_BIAS = 8;
@@ -27,9 +27,14 @@ class Main extends Phaser.State {
 	}
 
 	update() {
-		this.level.update();
-		this.levelEvent.update();
-		this.checkDoor();
+		if (this.level != undefined) {
+			this.level.update();
+		}
+
+		if(this.levelEvent != undefined) {
+			this.levelEvent.update();
+			this.checkDoor();
+		}
 	}
 
 	checkDoor() {
@@ -39,9 +44,19 @@ class Main extends Phaser.State {
 	}
 
 	nextLevel() {
-		this.currentLevel++;
-		this.level = new LoadLevel(this.game, this.player, this.mea, this.levelMaps[this.currentLevel], 200, 100);
-		this.levelEvent = new LoadEvent(this.level);
+		if (this.currentLevel.length < this.currentLevel) {
+			this.currentLevel++;
+			this.loadCurrentLevel();
+		}
+	}
+
+	loadCurrentLevel() {
+		if (this.level != undefined) {
+			this.level.destroy();
+		}
+
+		this.level = new LoadLevel(this.game, this.player, this.mea, this.levelMaps[this.currentLevel]);
+		//this.levelEvent = new LoadEvent(this.level);
 	}
 }
 
