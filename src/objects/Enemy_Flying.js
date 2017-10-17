@@ -40,8 +40,6 @@ class Enemy_Flying extends Phaser.Sprite {
 				this.timer = 0;
 			}
 
-
-
 			if (this.moveUp) {
 				this.game.physics.arcade.moveToXY(this, this.originX, this.originY + 2, 60, 200);
 			} else {
