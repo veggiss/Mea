@@ -3,6 +3,8 @@ import Enemy_Moving from 'objects/Enemy_Moving';
 import Enemy_Flying from 'objects/Enemy_Flying';
 import Button from 'objects/Button';
 import Door from 'objects/Door';
+import Catapult_Vertical from 'objects/Catapult_Vertical';
+import Catapult_Horizontal from 'objects/Catapult_Horizontal';
 
 class LoadMap extends Phaser.Tilemap {
 	constructor(game, key, width, height) {
@@ -25,9 +27,11 @@ class LoadMap extends Phaser.Tilemap {
 		this.obj_enemy_flying = this.game.add.group();
 		this.obj_button = this.game.add.group();
 		this.obj_door = this.game.add.group();
+		this.obj_catapult = this.game.add.group();
 		this.startPos = this.game.add.group();
 
-		this.allObjects = [this.obj_stone, this.obj_enemy_moving, this.obj_enemy_flying, this.obj_button, this.obj_door, this.startPos];
+		this.allObjects = [this.obj_stone, this.obj_enemy_moving, this.obj_enemy_flying, 
+		this.obj_button, this.obj_door, this.obj_catapult, this.startPos];
 
 		this.loadObjects();
 
@@ -40,6 +44,8 @@ class LoadMap extends Phaser.Tilemap {
 		this.createFromObjects('objectLayer', 'enemy_flying', 'enemy_flying', 0, true, true, this.obj_enemy_flying, Enemy_Flying);
 		this.createFromObjects('objectLayer', 'button', 'button', 0, true, true, this.obj_button, Button);
 		this.createFromObjects('objectLayer', 'door', 'door', 0, true, true, this.obj_door, Door);
+		this.createFromObjects('objectLayer', 'catapult_vertical', 'catapult_vertical', 0, true, true, this.obj_catapult, Catapult_Vertical);
+		this.createFromObjects('objectLayer', 'catapult_horizontal', 'catapult_horizontal', 0, true, true, this.obj_catapult, Catapult_Horizontal);
 		this.createFromObjects('objectLayer', 'startPos', null, 0, false, false, this.startPos);
 	}
 }

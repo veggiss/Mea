@@ -38,6 +38,7 @@ class LoadLevel {
 		this.game.physics.arcade.collide(this.player, this.map.obj_enemy_moving, this.movingEnemyHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_enemy_flying, this.movingEnemyHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_button);
+		this.game.physics.arcade.overlap(this.player, this.map.obj_catapult, this.catapultHandler, null, this);
 
 		//Objects vs the world
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.groundLayer);
@@ -70,6 +71,15 @@ class LoadLevel {
 		} else {
 			this.resetObjects();
 		}
+	}
+
+	catapultHandler(p, e) {
+		if (e.name == "catapult_vertical") {
+			p.body.velocity.y = -275 * e.scale.y;
+		} else if (e.name == "catapult_horizontal") {
+			p.body.velocity.x = 275 * e.scale.x;
+		}
+		e.anim.play(15);
 	}
 
 	resetObjects() {
