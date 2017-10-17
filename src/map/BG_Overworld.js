@@ -17,6 +17,12 @@ class BG_Overworld {
 		this.bg_mtn_back.tilePosition.set(-this.game.camera.x * 0.08, -this.game.camera.y * 0.08);
 		this.bg_mtn_front.tilePosition.set(-this.game.camera.x * 0.15, -this.game.camera.y * 0.15);
 	}
+
+	destroy() {
+		this.bg_sky_sun.destroy();
+		this.bg_mtn_back.destroy();
+		this.bg_mtn_front.destroy();
+	}
 }
 
 export default BG_Overworld;

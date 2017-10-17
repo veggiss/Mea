@@ -1,14 +1,11 @@
-import levelEvents_test from 'events/levelEvents_test';
-import levelEvents_test2 from 'events/levelEvents_test2';
+import levelEvents_proto_1 from 'events/levelEvents_proto_1';
 
 class EventLoader {
 	constructor(level) {
 		let event;
 
-		if (level.mapName == "level_objectPool") {
-			event = new levelEvents_test(level);
-		} else if (level.mapName == "level_test") {
-			event = new levelEvents_test2(level);
+		if (level.mapName == "level_proto_1") {
+			event = new levelEvents_proto_1(level);
 		}
 
 		return event;
