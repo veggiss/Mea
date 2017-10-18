@@ -12,19 +12,7 @@ class levelEvents_test{
 		this.updateButton();
 	}
 
-	updateButton() {
-		let activated = 0;
 
-		this.buttons.forEach(obj => {
-			if (obj.activated) {
-				activated++;
-			}
-
-			if (activated === this.buttons.length) {
-				console.log("lol");
-			}
-		});
-	}
 }
 
 export default levelEvents_test;

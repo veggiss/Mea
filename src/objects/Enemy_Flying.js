@@ -10,6 +10,7 @@ class Enemy_Flying extends Phaser.Sprite {
 		this.player = game.player;
 		this.moveUp = true;
 		this.timer = 0;
+		this.maxTimer = Math.floor((Math.random() * 15) + 5);
 
 		//Sprite
 		this.anim = this.animations.add('flying');
@@ -30,7 +31,7 @@ class Enemy_Flying extends Phaser.Sprite {
 
 	update() {
 		if (this.alive) {
-			if(this.timer > 15) {
+			if(this.timer > this.maxTimer) {
 				if (this.moveUp) {
 					this.moveUp = false;
 				} else {

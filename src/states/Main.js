@@ -13,7 +13,7 @@ class Main extends Phaser.State {
 		this.level, this.levelEvent;
 		this.levelLoaded = false;
 		this.currentLevel = 0;
-		this.levelMaps = ["level_showcase"];
+		this.levelMaps = ["level_proto_1", "level_proto_2", "level_proto_3", "level_proto_4", "level_proto_5"];
 
 		this.player = new Player(this.game);
 		this.mea = new Mea(this.game);
@@ -29,22 +29,25 @@ class Main extends Phaser.State {
 	update() {
 		if (this.level != undefined) {
 			this.level.update();
-		}
-
-		if(this.levelEvent != undefined) {
-			this.levelEvent.update();
 			this.checkDoor();
 		}
+
+		/*if(this.levelEvent != undefined) {
+			this.levelEvent.update();
+			this.checkDoor();
+		}*/
 	}
 
 	checkDoor() {
-		if (this.level.map.obj_door.children[0].activated && this.player.cursors.down.isDown) {
-			this.game.physics.arcade.overlap(this.player, this.level.map.obj_door, this.nextLevel, null, this);
+		if (this.level.map.obj_door.length > 0) {
+			if (this.level.levelCleared && this.player.cursors.down.isDown) {
+				this.game.physics.arcade.overlap(this.player, this.level.map.obj_door, this.nextLevel, null, this);
+			}
 		}
 	}
 
 	nextLevel() {
-		if (this.currentLevel.length < this.currentLevel) {
+		if (this.levelMaps.length - 1 > this.currentLevel) {
 			this.currentLevel++;
 			this.loadCurrentLevel();
 		}

@@ -13,8 +13,8 @@ class Mea extends Phaser.Sprite {
 		this.meaYMin = 10;
 		this.meaMoveUp = true;
 		this.juiceMeter = new JuiceMeter(this.game, 0, 0);
-		this.juiceTimer = 2000;
-		this.juiceMax = 10000;
+		this.juiceTimer = 4000;
+		this.juiceMax = 100;
 		this.juice = this.juiceMax;
 		this.isFlying = false;
 		this.gravDelay = 10;
@@ -72,7 +72,7 @@ class Mea extends Phaser.Sprite {
 	}
 
 	antiGravity() {
-		if (this.gravKey.isDown && this.juice > 1) {
+		if (this.gravKey.isDown && this.juice > 15) {
 			this.flyAnim.delay = 20;
 			if (this.gravDelay > 0) {
 				this.gravDelay--;
@@ -96,10 +96,14 @@ class Mea extends Phaser.Sprite {
 		}
 
 		this.juiceMeter.width = (this.juice / this.juiceMax) * 8;
-		
-		if (this.juice >= this.juiceMax) {
+
+		if (this.juice >= this.juiceMax && this.game.time.now - this.noGravTime > this.juiceTimer) {
 			this.juiceMeter.killMeter();
 		}
+		
+		/*if (!this.gravKey.isDown && this.game.time.now - this.noGravTime > this.juiceTimer) {
+			this.juice++;
+		}*/
 	}
 }
 

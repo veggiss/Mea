@@ -32,6 +32,7 @@ class Door extends Phaser.Sprite {
 	}
 
 	resetPos() {
+		this.activated = false;
 		this.animations.frame = 0;
 	}
 }

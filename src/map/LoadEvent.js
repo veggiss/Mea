@@ -4,7 +4,7 @@ class EventLoader {
 	constructor(level) {
 		let event;
 
-		if (level.mapName == "level_proto_1") {
+		if (level.mapName == "level_showcase") {
 			event = new levelEvents_proto_1(level);
 		}
 

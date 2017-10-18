@@ -20,6 +20,12 @@ class Player extends Phaser.Sprite {
 		//Physics
 		game.physics.arcade.enable(this);
 		this.body.setSize(6, 12, 4, 4);
+		this.body.maxVelocity.y = 325;
+		this.body.collideWorldBounds = true;
+		this.game.physics.arcade.checkCollision.up = true;
+		this.game.physics.arcade.checkCollision.down = false;
+		this.game.physics.arcade.checkCollision.left = true;
+		this.game.physics.arcade.checkCollision.right = true;
 
 		//Globals
 		Player.getX = this.x;

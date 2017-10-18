@@ -25,6 +25,7 @@ class Enemy_Moving extends Phaser.Sprite {
 		this.body.immovable = true;
 		this.body.moves = true;
 		this.body.setSize(11, 11, 0, 0);
+		this.body.collideWorldBounds = true;
 	}
 
 	update() {
@@ -35,21 +36,17 @@ class Enemy_Moving extends Phaser.Sprite {
 				this.scale.x = -1;
 			}
 
-			if (this.body.blocked.up || this.body.touching.up) {
-				this.kill();
-			}
-
 			this.body.velocity.x = this.scale.x * 12;
 		}
 	}
 
-	resetPos() {
+	resetPos() {		
+		this.x = this.originX;
+		this.y = this.originY;
+
 		if (!this.alive) {
 			this.revive();
 		}
-
-		this.x = this.originX;
-		this.y = this.originY;
 	}
 }
 
