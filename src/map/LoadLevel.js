@@ -12,15 +12,16 @@ class LoadLevel {
 		this.loadBackground("overworld");
 		this.map = new LoadMap(game, mapName);
 
+		// Sound
+		this.sound_enemy_death = this.game.add.audio('sound_enemy_death');
+		this.sound_enemy_death.volume = 0.3;
+
 		this.player.bringToTop();
 		this.mea.bringToTop();
 		this.mea.juiceMeter.bringToTop();
-		this.startPosX = this.map.startPos.getAt(0).x
-		this.startPosY = this.map.startPos.getAt(0).y
-		this.player.x = this.startPosX;
-		this.player.y = this.startPosY;
-		this.mea.x = this.startPosX;
-		this.mea.y = this.startPosY - 8;
+
+		this.startPosX = this.map.startPos.getAt(0).x;
+		this.startPosY = this.map.startPos.getAt(0).y - this.player.height;
 
 		return this;
 	}
@@ -29,6 +30,7 @@ class LoadLevel {
 		this.updateCollitions();
 		this.updateButton();
 		this.playerOutOfBounds();
+		this.bg.update();
 	}
 
 	updateCollitions() {
@@ -41,25 +43,38 @@ class LoadLevel {
 		this.game.physics.arcade.collide(this.player, this.map.obj_enemy_flying, this.movingEnemyHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_button);
 		this.game.physics.arcade.overlap(this.player, this.map.obj_catapult, this.catapultHandler, null, this);
-		this.game.physics.arcade.overlap(this.player, this.map.obj_mea_crystal, this.meaCrystalHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_spikes, this.playerDeath, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_moving_platform);
+		this.game.physics.arcade.collide(this.player, this.map.obj_boat);
+		this.game.physics.arcade.overlap(this.player, this.map.obj_laser, this.laserOverlapPlayer, null, this);
 
 		//Objects vs the world
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.groundLayer);
-		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_flying, this.killObject, null, this);
-		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_moving, this.killObject, null, this);
 		this.game.physics.arcade.collide(this.map.obj_enemy_moving, this.map.groundLayer);
 
 		//Objects vs objects
-		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_moving, this.movingEnemyHandler, null, this);
+		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_moving, this.stoneHandler, null, this);
+		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_flying, this.stoneHandler, null, this);
+		this.game.physics.arcade.collide(this.map.obj_enemy_moving, this.map.obj_enemy_moving);
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_button);
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_moving_platform);
+		this.game.physics.arcade.overlap(this.map.obj_enemy_moving, this.map.obj_catapult, this.catapultHandler, null, this);
+		this.game.physics.arcade.overlap(this.map.obj_stone, this.map.obj_laser, this.laserIntersect, null, this);
 	}
 
 	loadBackground(bg) {
 		if (bg == "overworld") {
 			this.bg = new BG_Overworld(this.game);
+		}
+	}
+
+	laserIntersect(p, e) {
+		e.interSectPoint(p);
+	}
+
+	laserOverlapPlayer(p, e) {
+		if (e.isOverlapping(p)) {
+			this.resetObjects();
 		}
 	}
 
@@ -72,17 +87,23 @@ class LoadLevel {
 		});
 	}
 
+	stoneHandler(p, e) {
+		if (p.body.touching.down && e.body.touching.up) {
+			this.killObject(p, e);
+		}
+	}
+
 	movingEnemyHandler(p, e) {
-		if (e.body.touching.up) {
+		if (p.body.touching.down && e.body.touching.up) {
 			p.body.velocity.y = -175;
-			e.kill();
+			this.killObject(p, e);
 		} else {
 			this.resetObjects();
 		}
 	}
 
 	updateButton() {
-		if (!this.levelCleared) {
+		if (!this.levelCleared && this.player.activated) {
 			let activated = 0;
 
 			this.map.obj_button.forEach(obj => {
@@ -99,6 +120,7 @@ class LoadLevel {
 	}
 
 	killObject(p, e) {
+		this.sound_enemy_death.play();
 		e.kill();
 	}
 
@@ -109,26 +131,27 @@ class LoadLevel {
 			p.body.velocity.x = 275 * e.scale.x;
 		}
 		e.anim.play(15);
-	}
-
-	meaCrystalHandler(p, e) {
-		if (this.mea.juice < this.mea.juiceMax) {
-			this.mea.juice = this.mea.juiceMax;
-			this.mea.noGravTime = this.game.time.now;
-			this.mea.juiceMeter.resetMeter(0, 0);
-			e.kill();
-		}
+		this.player.sound_jump.play();
 	}
 
 	playerDeath(p, e) {
 		this.resetObjects();
 	}
 
-	resetObjects() {
+	resetPlayerPos() {
 		this.player.x = this.startPosX;
 		this.player.y = this.startPosY;
 		this.mea.x = this.startPosX;
 		this.mea.y = this.startPosY;
+		this.player.body.velocity.x = 0;
+		this.player.body.velocity.y = 0;
+
+	}
+
+	resetObjects() {
+		this.game.camera.flash(0x000000, 500);
+		this.levelCleared = false;
+		this.player.activated = false;
 
 		this.map.allObjects.forEach(group => {
 			group.forEach(obj => {
@@ -138,11 +161,11 @@ class LoadLevel {
 			});
 		});
 
-		this.levelCleared = false;
+		this.resetPlayerPos();
 	}
 
 	playerOutOfBounds() {
-		if (this.player.y > this.game.world.width) {
+		if (this.player.y > this.game.world.height) {
 			this.resetObjects();
 		}
 	}

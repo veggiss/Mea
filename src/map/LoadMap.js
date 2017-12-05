@@ -1,14 +1,15 @@
-import Stone from 'objects/Stone';
-import Enemy_Moving from 'objects/Enemy_Moving';
-import Enemy_Flying from 'objects/Enemy_Flying';
-import Button from 'objects/Button';
-import Door from 'objects/Door';
-import Catapult_Vertical from 'objects/Catapult_Vertical';
-import Catapult_Horizontal from 'objects/Catapult_Horizontal';
-import Laser from 'objects/Laser';
-import Mea_Crystal from 'objects/Mea_Crystal';
-import Spikes from 'objects/Spikes';
-import Moving_Platform_16 from 'objects/Moving_Platform_16';
+import Stone from 'objects/world/Stone';
+import Enemy_Moving from 'objects/enemy/Enemy_Moving';
+import Enemy_Flying from 'objects/enemy/Enemy_Flying';
+import Button from 'objects/world/Button';
+import Door from 'objects/world/Door';
+import Catapult_Vertical from 'objects/world/Catapult_Vertical';
+import Catapult_Horizontal from 'objects/world/Catapult_Horizontal';
+import Laser from 'objects/enemy/Laser';
+import Spikes from 'objects/enemy/Spikes';
+import Boat from 'objects/world/Boat';
+import Decor from 'objects/world/Decor';
+import Moving_Platform_16 from 'objects/world/Moving_Platform_16';
 
 class LoadMap extends Phaser.Tilemap {
 	constructor(game, key, width, height) {
@@ -18,6 +19,8 @@ class LoadMap extends Phaser.Tilemap {
 
 		this.addTilesetImage('tm_ground');
 		this.addTilesetImage('tm_ground_inv');
+		this.addTilesetImage('tm_mtn');
+		this.addTilesetImage('sea');
 		this.setCollisionBetween(1, 3200);
 
 		this.groundLayer = this.createLayer('groundLayer');
@@ -33,14 +36,15 @@ class LoadMap extends Phaser.Tilemap {
 		this.obj_door = this.game.add.group();
 		this.obj_catapult = this.game.add.group();
 		this.obj_laser = this.game.add.group();
-		this.obj_mea_crystal = this.game.add.group();
 		this.obj_spikes = this.game.add.group();
 		this.obj_moving_platform = this.game.add.group();
+		this.obj_boat = this.game.add.group();
+		this.obj_decor = this.game.add.group();
 		this.startPos = this.game.add.group();
 
 		this.allObjects = [this.obj_stone, this.obj_enemy_moving, this.obj_enemy_flying, 
-		this.obj_button, this.obj_door, this.obj_catapult, this.obj_laser, this.obj_mea_crystal, 
-		this.obj_spikes, this.obj_moving_platform, this.startPos];
+		this.obj_button, this.obj_door, this.obj_catapult, this.obj_laser, this.obj_spikes, 
+		this.obj_moving_platform, this.obj_boat, this.obj_decor, this.startPos];
 
 		this.loadObjects();
 
@@ -55,11 +59,13 @@ class LoadMap extends Phaser.Tilemap {
 		this.createFromObjects('objectLayer', 'door', 'door', 0, true, true, this.obj_door, Door);
 		this.createFromObjects('objectLayer', 'catapult_vertical', 'catapult_vertical', 0, true, true, this.obj_catapult, Catapult_Vertical);
 		this.createFromObjects('objectLayer', 'catapult_horizontal', 'catapult_horizontal', 0, true, true, this.obj_catapult, Catapult_Horizontal);
-		this.createFromObjects('objectLayer', 'laser', 'laser', 0, true, true, this.obj_laser, Laser);
-		this.createFromObjects('objectLayer', 'mea_crystal', 'mea_crystal', 0, true, true, this.obj_mea_crystal, Mea_Crystal);
 		this.createFromObjects('objectLayer', 'spikes', 'spikes', 0, true, true, this.obj_spikes, Spikes);
 		this.createFromObjects('objectLayer', 'moving_platform', 'moving_platform_16', 0, true, true, this.obj_moving_platform, Moving_Platform_16);
-		this.createFromObjects('objectLayer', 'startPos', null, 0, false, false, this.startPos);
+		this.createFromObjects('objectLayer', 'startPos', 'trigger', 0, false, false, this.startPos);
+		this.createFromObjects('objectLayer', 'boat', 'boat', 0, true, true, this.obj_boat, Boat);
+		this.createFromObjects('objectLayer', 'tree', 'tree', 0, true, true, this.obj_decor, Decor);
+		this.createFromObjects('objectLayer', 'laser', 'laser', 0, true, true, this.obj_laser, Laser);
+		this.createFromObjects('objectLayer', 'lasercannon', 'lasercannon', 0, true, true, this.obj_decor, Decor);
 	}
 }
 
