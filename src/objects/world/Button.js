@@ -12,7 +12,7 @@ class Button extends Phaser.Sprite {
 		//Sound
 		this.sound_activate = this.game.add.audio('sound_activate');
 
-		this.sound_activate.volume = 0.3;
+		this.sound_activate.volume = 0.7;
 
 		//Physics
 		game.physics.arcade.enable(this);

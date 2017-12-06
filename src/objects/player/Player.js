@@ -24,10 +24,10 @@ class Player extends Phaser.Sprite {
 		this.sound_step_3 = this.game.add.audio('sound_step_3');
 		this.sound_jump = this.game.add.audio('sound_jump');
 
-		this.sound_step_1.volume = 0.3;
-		this.sound_step_2.volume = 0.3;
-		this.sound_step_3.volume = 0.3;
-		this.sound_jump.volume = 0.2;
+		this.sound_step_1.volume = 0.7;
+		this.sound_step_2.volume = 0.7;
+		this.sound_step_3.volume = 0.7;
+		this.sound_jump.volume = 0.7;
 
 		//Physics
 		this.game.physics.arcade.enable(this);

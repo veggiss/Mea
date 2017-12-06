@@ -9,6 +9,16 @@
                  "height":8,
                  "id":2,
                  "name":"startPos",
+                 "properties":
+                    {
+                     "startX":"128",
+                     "startY":"120"
+                    },
+                 "propertytypes":
+                    {
+                     "startX":"string",
+                     "startY":"string"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -294,15 +304,15 @@
          "tilewidth":93
         }, 
         {
-         "columns":35,
+         "columns":38,
          "firstgid":111,
          "image":"..\/world\/tm_mtn.png",
          "imageheight":8,
-         "imagewidth":280,
+         "imagewidth":304,
          "margin":0,
          "name":"tm_mtn",
          "spacing":0,
-         "tilecount":35,
+         "tilecount":38,
          "tileheight":8,
          "tilewidth":8
         }],

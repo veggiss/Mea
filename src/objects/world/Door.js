@@ -20,8 +20,8 @@ class Door extends Phaser.Sprite {
 		this.sound_opening = this.game.add.audio('sound_opening');
 		this.sound_ending = this.game.add.audio('sound_ending');
 
-		this.sound_opening.volume = 0.3;
-		this.sound_ending.volume = 0.3;
+		this.sound_opening.volume = 0.7;
+		this.sound_ending.volume = 0.7;
 
 		//Physics
 		game.physics.arcade.enable(this);
@@ -54,6 +54,8 @@ class Door extends Phaser.Sprite {
 
 	resetPos() {
 		this.activated = false;
+		this.anim.stop();
+		this.sound_opening.stop();
 		this.animations.frame = 0;
 		this.arrowdown.kill();
 	}

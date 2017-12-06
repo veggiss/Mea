@@ -21,6 +21,16 @@
                  "height":8,
                  "id":3,
                  "name":"startPos",
+                 "properties":
+                    {
+                     "startX":"96",
+                     "startY":"128"
+                    },
+                 "propertytypes":
+                    {
+                     "startX":"string",
+                     "startY":"string"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,

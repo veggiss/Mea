@@ -9,12 +9,22 @@
                  "height":8,
                  "id":2,
                  "name":"startPos",
+                 "properties":
+                    {
+                     "startX":"40",
+                     "startY":"144"
+                    },
+                 "propertytypes":
+                    {
+                     "startX":"string",
+                     "startY":"string"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":32,
-                 "y":80
+                 "x":40,
+                 "y":144
                 }, 
                 {
                  "gid":75,
@@ -235,21 +245,21 @@
          "tilewidth":11
         }, 
         {
-         "columns":1,
+         "columns":0,
          "firstgid":103,
          "image":"..\/enemy\/laser.png",
          "imageheight":3,
-         "imagewidth":4,
+         "imagewidth":1,
          "margin":0,
          "name":"laser",
          "spacing":0,
-         "tilecount":1,
+         "tilecount":0,
          "tileheight":3,
          "tilewidth":4
         }, 
         {
          "columns":4,
-         "firstgid":104,
+         "firstgid":103,
          "image":"..\/enemy\/spikes.png",
          "imageheight":6,
          "imagewidth":16,
@@ -262,7 +272,7 @@
         }, 
         {
          "columns":1,
-         "firstgid":108,
+         "firstgid":107,
          "image":"..\/world\/objects\/moving_platform_16.png",
          "imageheight":3,
          "imagewidth":16,
@@ -274,21 +284,21 @@
          "tilewidth":16
         }, 
         {
-         "columns":34,
-         "firstgid":109,
+         "columns":38,
+         "firstgid":108,
          "image":"..\/world\/tm_mtn.png",
          "imageheight":8,
-         "imagewidth":272,
+         "imagewidth":304,
          "margin":0,
          "name":"tm_mtn",
          "spacing":0,
-         "tilecount":34,
+         "tilecount":38,
          "tileheight":8,
          "tilewidth":8
         }, 
         {
          "columns":1,
-         "firstgid":143,
+         "firstgid":146,
          "image":"..\/world\/bg\/tree.png",
          "imageheight":64,
          "imagewidth":64,

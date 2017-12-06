@@ -9,6 +9,16 @@
                  "height":8,
                  "id":2,
                  "name":"startPos",
+                 "properties":
+                    {
+                     "startX":"32",
+                     "startY":"104"
+                    },
+                 "propertytypes":
+                    {
+                     "startX":"string",
+                     "startY":"string"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -41,7 +51,7 @@
                  "y":56
                 }, 
                 {
-                 "gid":142,
+                 "gid":146,
                  "height":64,
                  "id":43,
                  "name":"tree",
@@ -50,6 +60,18 @@
                  "visible":true,
                  "width":64,
                  "x":136,
+                 "y":80
+                }, 
+                {
+                 "gid":80,
+                 "height":11,
+                 "id":44,
+                 "name":"enemy_moving",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13,
+                 "x":224,
                  "y":80
                 }],
          "opacity":1,
@@ -80,7 +102,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":44,
+ "nextobjectid":46,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.0.3",
@@ -262,21 +284,21 @@
          "tilewidth":16
         }, 
         {
-         "columns":34,
+         "columns":38,
          "firstgid":108,
          "image":"..\/world\/tm_mtn.png",
          "imageheight":8,
-         "imagewidth":272,
+         "imagewidth":304,
          "margin":0,
          "name":"tm_mtn",
          "spacing":0,
-         "tilecount":34,
+         "tilecount":38,
          "tileheight":8,
          "tilewidth":8
         }, 
         {
          "columns":1,
-         "firstgid":142,
+         "firstgid":146,
          "image":"..\/world\/bg\/tree.png",
          "imageheight":64,
          "imagewidth":64,

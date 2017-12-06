@@ -18,6 +18,7 @@ class Mea extends Phaser.Sprite {
 		this.juice = this.juiceMax;
 		this.isFlying = false;
 		this.gravDelay = 10;
+		this.activated = true;
 		this.gravKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		//Globals
@@ -33,7 +34,7 @@ class Mea extends Phaser.Sprite {
 
 		// Sound
 		this.sound_carry = this.game.add.audio('sound_carry');
-		this.sound_carry.volume = 0.2;
+		this.sound_carry.volume = 0.6;
 		this.sound_carry.loop = true;
 
 		//Physics
@@ -70,12 +71,21 @@ class Mea extends Phaser.Sprite {
 			} else {
 				this.meaY -= 0.25;
 			}
+			if (this.activated) {
+				this.game.physics.arcade.moveToXY(this, Player.getX - (Player.getScaleX * 7), Player.getY - this.meaY, 60, 150);
+			} else {
+				this.y = Player.getY - this.meaY;
 
-			this.game.physics.arcade.moveToXY(this, Player.getX - (Player.getScaleX * 7), Player.getY - this.meaY, 60, 150);
+			}
 		} else {
-			this.game.physics.arcade.moveToXY(this, Player.getX + (Player.getBody.velocity.x/8), Player.getY + (Player.getBody.velocity.y/8) - 8, 30, 100);
+			if (this.activated) {
+				this.game.physics.arcade.moveToXY(this, Player.getX + (Player.getBody.velocity.x/8), Player.getY + (Player.getBody.velocity.y/8) - 8, 30, 100);
+			}
 		}
-		this.scale.x = -Player.getScaleX;
+
+		if (this.activated) {
+			this.scale.x = -Player.getScaleX;
+		}
 	}
 
 	antiGravity() {
@@ -114,10 +124,6 @@ class Mea extends Phaser.Sprite {
 		if (this.juice >= this.juiceMax && this.game.time.now - this.noGravTime > this.juiceTimer) {
 			this.juiceMeter.killMeter();
 		}
-		
-		/*if (!this.gravKey.isDown && this.game.time.now - this.noGravTime > this.juiceTimer) {
-			this.juice++;
-		}*/
 	}
 }
 

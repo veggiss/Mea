@@ -14,14 +14,16 @@ class LoadLevel {
 
 		// Sound
 		this.sound_enemy_death = this.game.add.audio('sound_enemy_death');
-		this.sound_enemy_death.volume = 0.3;
+		this.sound_player_death = this.game.add.audio('sound_player_death');
+		this.sound_enemy_death.volume = 0.7;
+		this.sound_player_death.volume = 0.7;
 
 		this.player.bringToTop();
 		this.mea.bringToTop();
 		this.mea.juiceMeter.bringToTop();
 
-		this.startPosX = this.map.startPos.getAt(0).x;
-		this.startPosY = this.map.startPos.getAt(0).y - this.player.height;
+		this.startX = parseInt(this.map.startPos.getAt(0).startX);
+		this.startY = (parseInt(this.map.startPos.getAt(0).startY)) - this.player.height;
 
 		return this;
 	}
@@ -43,14 +45,10 @@ class LoadLevel {
 		this.game.physics.arcade.collide(this.player, this.map.obj_enemy_flying, this.movingEnemyHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_button);
 		this.game.physics.arcade.overlap(this.player, this.map.obj_catapult, this.catapultHandler, null, this);
-		this.game.physics.arcade.collide(this.player, this.map.obj_spikes, this.playerDeath, null, this);
+		this.game.physics.arcade.collide(this.player, this.map.obj_spikes, this.spikesHandler, null, this);
 		this.game.physics.arcade.collide(this.player, this.map.obj_moving_platform);
 		this.game.physics.arcade.collide(this.player, this.map.obj_boat);
 		this.game.physics.arcade.overlap(this.player, this.map.obj_laser, this.laserOverlapPlayer, null, this);
-
-		//Objects vs the world
-		this.game.physics.arcade.collide(this.map.obj_stone, this.map.groundLayer);
-		this.game.physics.arcade.collide(this.map.obj_enemy_moving, this.map.groundLayer);
 
 		//Objects vs objects
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_enemy_moving, this.stoneHandler, null, this);
@@ -60,6 +58,12 @@ class LoadLevel {
 		this.game.physics.arcade.collide(this.map.obj_stone, this.map.obj_moving_platform);
 		this.game.physics.arcade.overlap(this.map.obj_enemy_moving, this.map.obj_catapult, this.catapultHandler, null, this);
 		this.game.physics.arcade.overlap(this.map.obj_stone, this.map.obj_laser, this.laserIntersect, null, this);
+		this.game.physics.arcade.overlap(this.map.obj_moving_platform, this.map.obj_laser, this.laserIntersect, null, this);
+		this.game.physics.arcade.overlap(this.map.obj_laser, this.map.obj_enemy_moving, this.killObject, null, this);
+
+		//Objects vs the world
+		this.game.physics.arcade.collide(this.map.obj_stone, this.map.groundLayer);
+		this.game.physics.arcade.collide(this.map.obj_enemy_moving, this.map.groundLayer);
 	}
 
 	loadBackground(bg) {
@@ -74,6 +78,7 @@ class LoadLevel {
 
 	laserOverlapPlayer(p, e) {
 		if (e.isOverlapping(p)) {
+			this.sound_player_death.play();
 			this.resetObjects();
 		}
 	}
@@ -98,6 +103,7 @@ class LoadLevel {
 			p.body.velocity.y = -175;
 			this.killObject(p, e);
 		} else {
+			this.sound_player_death.play();
 			this.resetObjects();
 		}
 	}
@@ -128,24 +134,30 @@ class LoadLevel {
 		if (e.name == "catapult_vertical") {
 			p.body.velocity.y = -275 * e.scale.y;
 		} else if (e.name == "catapult_horizontal") {
-			p.body.velocity.x = 275 * e.scale.x;
+			p.body.velocity.x = 475 * e.scale.x;
 		}
 		e.anim.play(15);
 		this.player.sound_jump.play();
 	}
 
-	playerDeath(p, e) {
-		this.resetObjects();
+	spikesHandler(p, e) {
+		if (p.body.touching.down && e.body.touching.up) {
+			this.sound_player_death.play();
+			this.resetObjects();
+		}
 	}
 
 	resetPlayerPos() {
-		this.player.x = this.startPosX;
-		this.player.y = this.startPosY;
-		this.mea.x = this.startPosX;
-		this.mea.y = this.startPosY;
+		this.player.x = this.startX;
+		this.player.y = this.startY;
+		this.player.animations.play('idle');
+		this.player.scale.x = 1;
+		this.mea.x = this.startX;
+		this.mea.y = this.startY;
+		this.mea.juice = this.mea.juiceMax;
+		this.mea.juiceMeter.killMeter();
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
-
 	}
 
 	resetObjects() {

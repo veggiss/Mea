@@ -15,8 +15,10 @@ class Main extends Phaser.State {
 		this.game.level_reset_events = this.level_reset_events();
 		this.currentLevel = 0;
 		this.nextLevelStarted = false;
+		this.musicOn = true;
+		this.outroTime;
 		this.eventFired = [];
-		this.levelMaps = ["level_intro_scene", "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7", "level_8", "level_9"];
+		this.levelMaps = ["level_intro_scene", "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7", "level_8", "level_9", "level_10", "level_11", "level_12", "level_outro_scene"];
 
 		// Main characters
 		this.player = new Player(this.game);
@@ -24,7 +26,14 @@ class Main extends Phaser.State {
 
 		// Sound
 		this.sound_passed = this.game.add.audio('sound_passed');
-		this.sound_passed.volume = 0.4;
+		this.music_intro = this.game.add.audio('music_intro');
+		this.music_loop = this.game.add.audio('music_loop');
+		this.sound_passed.volume = 0.8;
+		this.music_intro.volume = 0.1;
+		this.music_loop.volume = 0.1;
+		this.music_loop.loop = true;
+		this.music_intro.play();
+		this.music_intro.onStop.add(() => {this.music_loop.play();}, this);
 
 		// Bitmap texts
 		this.bitmapText_intro = this.game.add.bitmapText(this.game.width/2 + 25,this.game.height/2 - 50, 'font', '', 10);
@@ -36,6 +45,10 @@ class Main extends Phaser.State {
 		//Load level
 		this.loadCurrentLevel();
 		this.player.cursors.down.onDown.add(this.checkDoor, this);
+		let restartKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
+		let muteKey = this.game.input.keyboard.addKey(Phaser.Keyboard.M);
+		restartKey.onDown.add(this.restartKeyEvent, this);
+		muteKey.onDown.add(this.toggleMusic, this);
 		
 		// Set bias and gravity
 		this.game.physics.arcade.gravity.y = 450;
@@ -62,12 +75,19 @@ class Main extends Phaser.State {
 		}
 	}
 
+	restartKeyEvent() {
+		if(this.player.activated) {
+			this.level.resetObjects();
+		}
+	}
+
 	startNextLevel() {
 		this.nextLevelStarted = false;
 		this.currentLevel++;
-		this.player.unlockPlayer();
 		this.loadCurrentLevel();
 		this.fadeFromBlack(1000);
+		this.mea.activated = true;
+		this.player.unlockPlayer();
 	}
 
 	nextLevel() {
@@ -88,6 +108,8 @@ class Main extends Phaser.State {
 		this.level = new LoadLevel(this.game, this.player, this.mea, this.levelMaps[this.currentLevel]);
 		this.level.map.groundLayer.bringToTop();
 		this.level.map.bgLayer.bringToTop();
+		this.mea.bringToTop();
+		this.mea.juiceMeter.bringToTop();
 		this.game.world.bringToTop(this.dialog);
 		this.level.resetPlayerPos();
 
@@ -95,6 +117,19 @@ class Main extends Phaser.State {
 			this.level_intro_events();
 		} else if (this.currentLevel == 3) {
 			this.level_3_events();
+		} else if (this.currentLevel == 13) {
+			this.level_outro_events();
+		}
+	}
+
+	toggleMusic() {
+		if (this.musicOn) {
+			this.music_intro.stop();
+			this.music_loop.stop();
+			this.musicOn = false;
+		} else {
+			this.music_intro.play();
+			this.musicOn = true;
 		}
 	}
 
@@ -146,6 +181,15 @@ class Main extends Phaser.State {
 		this.eventFired = [false, false];
 	}
 
+	level_outro_events() {
+		this.game.camera.onFadeComplete.removeAll();
+		this.bitmapText_dialog.text = '';
+		this.bitmapText_dialog.alpha = 1;
+		this.music_loop.fadeOut(4000);
+		this.outroTime = 0;
+		this.eventFired = [false, false, false, false, false, false, false];
+	}
+
 	level_reset_events() {
 		if (this.player && this.currentLevel != 0) {
 			this.player.activated = true;
@@ -157,18 +201,72 @@ class Main extends Phaser.State {
 	}
 
 	level_update_events() {
-		if(this.currentLevel == 3 && (!this.eventFired[0] || !this.eventFired[1])) {
-			if (this.player.body.x > 185 && !this.eventFired[0]) {
-				this.bitmapText_dialog.x = this.mea.body.x - (this.bitmapText_dialog.width/2);
-				this.bitmapText_dialog.y = this.mea.body.y - 10;				
-				this.bitmapText_dialog.text = '[space] might get you there';
-				this.eventFired[0] = true;
-			} else if (this.eventFired[0] && !this.eventFired[1]) {
-				this.bitmapText_dialog.x = this.mea.body.x - (this.bitmapText_dialog.width/2);
-				this.bitmapText_dialog.y = this.mea.body.y - 10;
-				if (this.mea.gravKey.isDown) {
-					this.eventFired[1] = true;
-					this.game.add.tween(this.bitmapText_dialog).to({alpha: 0}, 2000, Phaser.Easing.Linear.None, true, 1000);
+		if (this.currentLevel == 1) {
+			this.game.add.tween(this.bitmapText_dialog).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, false, 1000);
+			this.bitmapText_dialog.x = 35;
+			this.bitmapText_dialog.y = 25;
+			this.bitmapText_dialog.text = '[m] to mute music';
+		} else if (this.currentLevel == 2) {
+			this.game.add.tween(this.bitmapText_dialog).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, false, 1000);
+			this.bitmapText_dialog.text = '[r] to restart';
+		} else if (this.currentLevel == 3) {
+			if(this.level.map.obj_door.getAt(0).activated && (!this.eventFired[0] || !this.eventFired[1])) {
+				if (this.player.body.x > 185 && !this.eventFired[0]) {
+					this.bitmapText_dialog.x = 125;
+					this.bitmapText_dialog.y = 50;				
+					this.bitmapText_dialog.text = '[space] might get you there';
+					this.eventFired[0] = true;
+				} else if (this.eventFired[0] && !this.eventFired[1]) {
+					if (this.mea.gravKey.isDown) {
+						this.eventFired[1] = true;
+						this.game.add.tween(this.bitmapText_dialog).to({alpha: 0}, 2000, Phaser.Easing.Linear.None, true, 1000);
+					}
+				}
+			}
+		} else if (this.currentLevel == 13) {
+			if (this.player.x > 320) {
+				this.player.lockPlayer();
+				this.player.animations.frame = 0;
+				this.mea.activated = false;
+				this.mea.body.velocity.x = 0;
+				this.mea.body.velocity.y = 0;
+				this.bitmapText_dialog.y = 125;
+				let meafem = this.level.map.mea_fem.getAt(0);
+				let textX = meafem.x - Math.round((this.bitmapText_dialog.width/2));
+
+				if (!this.eventFired[0]) {
+					this.bitmapText_dialog.x = textX;
+					this.bitmapText_dialog.text = 'mea!';
+					this.outroTime = this.game.time.now;
+					this.eventFired[0] = true;
+				} else if (this.eventFired[0] && !this.eventFired[1] && this.outroTime + 2500 < this.game.time.now) {
+				    this.mea.body.velocity.x = 50;
+					if (this.mea.x > 375) {
+						this.mea.body.velocity.x = 0;
+						this.outroTime = this.game.time.now;
+						this.eventFired[1] = true;
+					}
+				} else if (this.eventFired[1] && !this.eventFired[2] && this.outroTime + 1000 < this.game.time.now) {
+					this.bitmapText_dialog.text = "";
+					this.outroTime = this.game.time.now;
+					this.eventFired[2] = true;
+				} else if (this.eventFired[2] && !this.eventFired[3] && this.outroTime + 2500 < this.game.time.now) {
+					this.mea.scale.x = 1;
+					this.mea.body.velocity.x = -25;
+
+					if (this.mea.x < 340) {
+						this.outroTime = this.game.time.now;		
+						this.eventFired[3] = true;
+					}
+				} else if (this.eventFired[3] && !this.eventFired[4] && this.outroTime + 2500 < this.game.time.now) {
+					this.bitmapText_dialog.x = 320;
+					this.bitmapText_dialog.text = "thank you!";
+					this.outroTime = this.game.time.now;
+					this.eventFired[4] = true;
+				} else if (this.eventFired[4] && !this.eventFired[5] && this.outroTime + 2500 < this.game.time.now) {
+					this.game.camera.fade(0x000000, 4000);
+					this.currentLevel = -1;
+					this.eventFired[5] = true;
 				}
 			}
 		}
