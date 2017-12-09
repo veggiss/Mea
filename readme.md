@@ -3,7 +3,9 @@
 *Mea is currently in alpha version*
 
 ### Description
-In this retro-styled platforming game you play as mountaineer Birger, who one day decides to cross a bridge he was told never to cross. On his adventure he meets a lost soul, Mea, who is in desperate need of help.
+In this retro-styled puzzle/hop-and-bop platforming game you set to sea and travel to an island to help Mea to find his lost soul. He might help you fly around but only you can figure out how to activate the hidden passages.
+
+*Controlls: fly with space key, up arrows to jump and left/right arows to move*
 
 Trello board: https://trello.com/b/9PaOuU3R/ikt-prosjekt
 
