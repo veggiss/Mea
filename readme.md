@@ -1,3 +1,5 @@
+### Play it here: https://home.uia.no/vegaes15/mea
+
 ## Production of Mea, a web game powered by phaser.
 
 *Mea is currently in alpha version*
@@ -8,5 +10,3 @@ In this retro-styled puzzle/hop-and-bop platforming game you set to sea and trav
 *Controlls: fly around with space key, up arrow to jump and left/right arrows to move*
 
 Trello board: https://trello.com/b/9PaOuU3R/ikt-prosjekt
-
-Play it here: https://home.uia.no/vegaes15/mea
